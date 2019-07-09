@@ -76,32 +76,32 @@ while True:
 
         mydb.commit()
 
-    #start counting using enumerate() method for each countours(rectangle) of an object in the foreground
+	#start counting using enumerate() method for each countours(rectangle) of an object in the foreground
     for(i,c) in enumerate(contours):
-        # get x and y cordinate, width and height of each countour.
+		# get x and y cordinate, width and height of each countour.
         (x,y,w,h) = cv2.boundingRect(c)
         valid_contour = (w >= min_width) and (h >= min_height)
-        #if the width and height of an object they are less than the width and height we have set we move up. 
+		#if the width and height of an object they are less than the width and height we have set we move up. 
         if not valid_contour:
             continue
-        # draw a green rectangle for our valid contour
+		# draw a green rectangle for our valid contour
         cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)        
-        # get the center cordinates
+		# get the center cordinates
         center = centroid_points(x, y, w, h)
-        # Assign center cordinates on detect array
+		# Assign center cordinates on detect array
         detect.append(center)
-        #draw a centroid on the countours
+		#draw a centroid on the countours
         cv2.circle(frame, center, 4, (0, 0,255), -1)
-        # loop for counting cars
+		# loop for counting cars
         for (x,y) in detect:
-        # if the object is far from our positional line(blue) we increment and then remove a green box on it.
+		# if the object is far from our positional line(blue) we increment and then remove a green box on it.
             if y<(pos_line+offset) and y>(pos_line-offset):
                 if ():
                     pass
                 cars +=1 
                 #draw a blue line
                 cv2.line(frame, (25, pos_line), (1200, pos_line), (0,127,255), 3)  
-                #remove a green box(contours).
+				#remove a green box(contours).
                 detect.remove((x,y))
                 print("Detected vehicles: "+str(cars))
 
