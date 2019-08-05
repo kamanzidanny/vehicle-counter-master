@@ -70,8 +70,8 @@ while True:
 
         mycursor = mydb.cursor()
 
-        sql = "INSERT INTO trafficInfo (id,day, doneDate) VALUES (%s, %s, %s)"
-        val = (1, "Tuesday","09-07-2019")
+        sql = "INSERT INTO statistics (road,numberOfVehicles) VALUES (%s, %s)"
+        val = ("KN 123" ,cars)
         mycursor.execute(sql, val)
 
         mydb.commit()
@@ -106,8 +106,6 @@ while True:
                 print("Detected vehicles: "+str(cars))
 
     print(str(hours).zfill(2) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2))
-    #display minute                
-    # cv2.putText(frame, current_time, (10, 130), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)   
     
     cv2.putText(frame, "VEHICLES: "+str(cars), (450, 70), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)
     cv2.imshow("output" , frame)
