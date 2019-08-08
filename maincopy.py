@@ -71,7 +71,7 @@ while True:
         mycursor = mydb.cursor()
 
         sql = "INSERT INTO trafficInfo (id,day, doneDate) VALUES (%s, %s, %s)"
-        val = (1, "Tuesday","09-07-2019")
+        val = (1, "Tuesday","10-07-2019")
         mycursor.execute(sql, val)
 
         mydb.commit()

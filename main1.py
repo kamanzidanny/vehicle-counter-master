@@ -1,14 +1,14 @@
 import cv2
 import time
 import numpy as np
-import datetime
 from time import sleep
+import datetime
 import mysql.connector
 
 # the minimum width we are going to depend on
-min_width=40
+min_width=80
 # the minimum height we are going to depend on
-min_height=40 
+min_height=80 
 
 offset=6  
 
@@ -48,10 +48,10 @@ while True:
     dilatada = cv2.morphologyEx (dilatada, cv2. MORPH_CLOSE , kernel)
     
     contours,h = cv2.findContours(dilatada,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    cv2.line(frame, (25, pos_line), (600, pos_line), (255,127,0), 3) 
+    cv2.line(frame, (25, pos_line), (1200, pos_line), (255,127,0), 3) 
 
-    #seconds = seconds + 1
-    #time.sleep(1)
+    # seconds = seconds + 1
+    # time.sleep(1)
     
     # if seconds == 60:
     #     seconds = 0
@@ -60,12 +60,11 @@ while True:
     # if minutes == 60:
     #     minutes = 0
     #     hours = hours + 1
-
     d = datetime.datetime.now()
     m = d.strftime("%M")
     s = d.strftime("%S")
 
-    if m == "36" and s =="00":
+    if m == "07" and s == "00":
         mydb = mysql.connector.connect(
           host="localhost",
           user="root",
@@ -74,13 +73,11 @@ while True:
         )
 
         mycursor = mydb.cursor()
-
         sql = "INSERT INTO statistics (road,numberOfVehicles) VALUES (%s, %s)"
         val = ("KN 123" ,cars)
         mycursor.execute(sql, val)
 
         mydb.commit()
-        
 
     #start counting using enumerate() method for each countours(rectangle) of an object in the foreground
     for(i,c) in enumerate(contours):
@@ -102,20 +99,16 @@ while True:
         for (x,y) in detect:
         # if the object is far from our positional line(blue) we increment and then remove a green box on it.
             if y<(pos_line+offset) and y>(pos_line-offset):
-                if ():
-                    pass
                 cars +=1 
                 #draw a blue line
-                cv2.line(frame, (25, pos_line), (600, pos_line), (0,127,255), 3)  
+                cv2.line(frame, (25, pos_line), (1200, pos_line), (0,127,255), 3)  
                 #remove a green box(contours).
                 detect.remove((x,y))
                 print("Detected vehicles: "+str(cars))
 
     print(str(hours).zfill(2) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2))
-    #display minute                
-    # cv2.putText(frame, current_time, (10, 130), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)   
     
-    cv2.putText(frame, "VEHICLES: "+str(cars), (100, 70), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)
+    cv2.putText(frame, "VEHICLES: "+str(cars), (450, 70), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)
     cv2.imshow("output" , frame)
     cv2.imshow("Detector",dilatada)
 
